@@ -1,0 +1,617 @@
+---
+title: "Getting Started in R"
+subtitle: "An Introduction to Data Analysis Workflow"
+format:
+  html:
+    code-fold: true
+    toc: true
+    toc-depth: 3
+    toc-location: left
+    number-sections: true
+    embed-resources: true
+    theme:
+      light: flatly
+      dark: darkly
+    css: styles.css
+    grid:
+      margin-width: 350px
+editor: source
+warning: false
+execute:
+  initR: |
+    renv::activate()
+---
+
+::: {.callout-note}
+## Document Overview
+This document serves as an introduction workbook to get you from 0 to a data analysis workflow in R. It comes as an HTML document to follow, as well as a `.qmd` file for you to work in (as prompted throughout the document).
+:::
+
+# Overview
+
+## Solving the Exercises in This Workbook
+
+Most (if not all) of the exercises are based on the excellent work by **Kyle Butts** and **Nick Huntington Klein**, who provided two great guides on getting started with R from a causal inference perspective.
+
+::: {.callout-tip collapse="true"}
+## Recommended Resources
+
+Whenever you are stuck, you will find all necessary information in these guides:
+
+### Kyle Butts' Guide
+🔗 [Introductory R Workbook](https://introductory-r-workbook.netlify.app/)
+
+**Focus on:**
+- Chapters 1 to 5
+- Note: Starting from Chapter 3, Kyle relies heavily on "base R" syntax
+
+### Nick Huntington Klein's Guide
+🔗 [Coding and Data Cleaning in R](https://nickchk.com/Coding%20and%20Data%20Cleaning%20Intro%20R.html)
+
+**Key features:**
+- Shorter and more concise than Kyle's guide
+- Utilizes "tidyverse" syntax for data manipulation (significantly easier for non-programmers)
+- **Recommended approach** for this course when working with vectors and dataframes
+:::
+
+---
+
+## Introduction to Quarto
+
+This document uses **Quarto**, a modern scientific publishing system.
+
+::: {.panel-tabset}
+
+### For Jupyter Users
+This is (unofficially) R's version of Jupyter notebooks with enhanced capabilities.
+
+### For Everyone Else
+- Combines both text and code in a single document
+- Supports multiple languages: R, Python, and Julia
+- Creates beautiful HTML or PDF reports to share with others
+
+### Learn More
+- [Official Quarto Website](https://quarto.org/)
+- [Quarto Cheat Sheet](https://rstudio.github.io/cheatsheets/quarto.pdf)
+:::
+
+---
+
+# Getting Started
+
+## Github and Version Control
+
+Before opening any IDE or creating directories, set up your version control system.
+
+::: {.callout-important}
+## Your Turn
+
+1. Create a GitHub repository on [github.com](https://github.com)
+2. Include the `.gitignore` file for "R"
+3. Clone it to your machine (using git bash or GitHub Desktop)
+:::
+
+Once your version control is set up, create the working directory structure.
+
+::: {.callout-important}
+## Your Turn
+
+1. Set up your working directory with the following folders:
+   - `data`
+     - `data/raw data`
+     - `data/processed data`
+   - `Code`
+   - `reports`
+   - `images`
+   - `other`
+2. Copy the file "Getting started with R.qmd" to the appropriate folder
+:::
+
+---
+
+## Working with R
+
+### Differences: RStudio vs Positron
+
+| Feature | RStudio | Positron |
+|---------|---------|----------|
+| Project Setup | Uses `.Rproj` files (must be created first) | Works with working directories |
+| Opening a Project | Open `.Rproj` file | File → Open Folder |
+
+::: {.callout-important}
+## Your Turn
+
+1. Open Positron
+2. Open your working directory
+3. Open the "Getting started with R.qmd" file
+:::
+
+::: {.callout-note}
+From here on out, you will be working with the `.qmd` file in Positron.
+:::
+
+---
+
+### R Environments
+
+An R environment is either created (`initR`) or activated through the YAML preamble (between the `---` markers) at the top of this document.
+
+::: {.callout-important}
+## Your Turn
+
+1. Run `renv::init(bare = TRUE)`
+2. Try the command `renv::status()` in the console and analyze the output
+:::
+
+---
+
+### Packages in R
+
+Now we will start getting into creating code cells to run R code in this Quarto document
+Code cells for R are created using triple backticks followed by `{r}`.
+To close a code block and continue writing text, use another set of triple backticks.
+You will find code blocks strewn throughout the .qmd file but feel free to create your own when you feel like you need to break the code up into multiple blocks.
+
+::: {.panel-tabset}
+
+### Learn More about code blocks and how they are "evaluated" in the cheat sheet
+- [Quarto Cheat Sheet](https://rstudio.github.io/cheatsheets/quarto.pdf)
+:::
+
+
+::: {.callout-important}
+## Your Turn
+
+**Install the following packages using `renv::install()` in the console:**
+
+- `dplyr`
+- `ggplot2`
+- `here`
+- `readr`
+- `lubridate`
+- `palmerpenguins`
+
+**Then load the packages :**
+:::
+
+```{r}
+#| label: base-packages
+#| warning: false
+
+```
+
+::: {.callout-tip}
+## Important
+Every time you install (or update) a package, save the changes in your environment lockfile using `renv::snapshot()`. This ensures you and others can reproduce your analyses in the same working environment.
+:::
+
+---
+
+### Rendering a Quarto Document
+
+Beyond using the Quarto file as an R script, it can be rendered to various outputs (HTML, PDF, book, etc.).
+
+In Positron, use the **"Preview"** button at the top of the editor. Make sure the relevant packages to render the document are installed. I.e. most likely, your first (few) attempts at rendering will throw error or warning messages. Read them!
+
+---
+
+## Version Control Workflow
+
+::: {.callout-important}
+## Your Turn
+
+**To push your changes to your remote GitHub repository:**
+
+1. Save the current notebook
+2. Add the changes to the staging area
+3. Create a commit message (descriptive note for future reference)
+4. Commit the changes
+5. Push the changes to your GitHub repository
+
+**To fetch any changes from a remote repository:**
+
+1. Fetch from the GitHub repository
+2. Pull any changes to your local repository
+:::
+
+::: {.callout-tip}
+## Best Practice
+When starting work on a project hosted on a remote GitHub repository, develop the habit of fetching and pulling first—even if there are no changes. This is especially important when collaborating or working on multiple machines.
+:::
+
+---
+
+### Sidenote: `renv` and Recreating Environments
+
+When initializing `renv`, a second `.gitignore` file is created which excludes the environment variables and packages.
+
+::: {.callout-warning}
+When cloning a repository to a new machine (or cloning a repository that has `renv`), run **`renv::restore()`** to recreate the working environment rather than manually installing packages.
+:::
+
+---
+
+# Working with R Basics
+
+## R as a Calculator
+
+::: {.callout-important}
+## Your Turn
+
+Create an R code block for each of the following exercises (refer to the Quarto cheat sheet):
+
+1. `1 + 1`
+2. `2 / 4`
+3. `3^2`
+:::
+
+```{r}
+#| label: calculator
+#| warning: false
+
+```
+
+---
+
+## Vectors
+
+Vectors are a one-dimensional representation of data that can be assigned to a variable.
+
+::: {.callout-important}
+## Your Turn
+
+1. Create a vector of 20 observations and call it `weight`
+2. Subset the first 5 observations of `weight`
+3. Multiply the vector by 2
+4. Create another vector of 20 observations and call it `weight_2`
+5. Multiply `weight` by `weight_2`, assign it to `weight_mult` and print it
+:::
+
+```{r}
+#| label: vectors
+#| warning: false
+
+```
+
+---
+
+## Functions
+
+Functions allow you to run more complex operations on data beyond simple arithmetic.
+
+::: {.callout-important}
+## Your Turn
+
+1. Try the `summary()` function on the `weight` vector
+2. Sort the `weight` vector from highest to lowest values
+3. Compute the mean and standard deviation of the `weight` data
+4. Create a new vector `weight_NA`, which is the same as the `weight` vector with one `NA` observation added to the vector
+5. Compute the mean and standard deviation of `weight_NA` — what happens?
+:::
+
+```{r}
+#| label: functions
+#| warning: false
+
+```
+
+---
+
+## Dataframes
+
+Dataframes can be viewed as groups of vectors of the same length.
+
+::: {.callout-important}
+## Your Turn
+
+1. Create a dataframe called `weight_df` from `weight` and `weight_2`
+2. Now create it with `weight`, `weight_2`, and `weight_NA` — what happens?
+:::
+
+```{r}
+#| label: dataframes_1
+#| warning: false
+
+```
+
+```{r}
+#| label: dataframes_2
+#| warning: false
+#| error: false
+
+```
+
+---
+
+### Loading Data as Dataframes
+
+While creating dataframes from scratch is possible, unless you are simulating data, it is unlikely to be your primary use case. More commonly, you will be loading/reading dataframes from external sources.
+
+::: {.callout-important}
+## Your Turn
+
+**Load the `penguins` data from the `palmerpenguins` package:**
+:::
+
+```{r}
+#| label: dataframes_load
+#| warning: false
+
+```
+
+For the next 2 exercises, the data you need was downloadable from ecampus (or fetched from the course Github repo).
+Make sure to put the data files where they make sense in your working directory. 
+
+::: {.callout-important}
+## Your Turn
+
+**Read the "penguins.csv" using the `here` package for relative file paths:**
+:::
+
+```{r}
+#| label: dataframes_csv
+#| warning: false
+
+```
+
+::: {.callout-important}
+## Your Turn
+
+**Load the "penguins.rda" using the `here` package for relative file paths:**
+:::
+
+```{r}
+#| label: dataframes_rda
+#| warning: false
+
+```
+
+---
+
+### Inspecting Your Dataframe
+
+When loading (and before or after manipulating) a dataframe, always verify what you are working with.
+
+::: {.callout-important}
+## Your Turn
+
+Inspect the dataframe using appropriate functions:
+
+- `head()` for a high-level overview
+- `glimpse()` for a more detailed overview
+:::
+
+```{r}
+#| label: dataframes_inspect
+#| warning: false
+
+```
+
+---
+
+### Manipulating Dataframes
+
+Once you have your dataframe loaded, you can perform various operations with it.
+
+::: {.callout-note}
+## Important Note
+Stick to ["tidyverse" syntax](https://tidyverse.org/) rather than base R to make your life easier. Refer to Nick Huntington Klein's guide if you need to look up operations.
+:::
+
+---
+
+#### Extracting Variables
+
+::: {.callout-important}
+## Your Turn
+
+Assign a single variable (column) of the dataframe to a new variable:
+:::
+
+```{r}
+#| label: dataframes_extract
+#| warning: false
+
+```
+
+---
+
+#### Filtering Data
+
+::: {.callout-important}
+## Your Turn
+
+Subset the `penguins` dataframe to a new dataframe by:
+
+- Only female penguins from the year 2007 **OR**
+- Male penguins from the year 2008
+:::
+
+```{r}
+#| label: dataframes_subset
+#| warning: false
+
+```
+
+---
+
+#### Summarising Data
+
+::: {.callout-important}
+## Your Turn
+
+Create a new table that shows the average body mass of male penguins, grouped by island:
+:::
+
+```{r}
+#| label: dataframes_summarise
+#| warning: false
+
+```
+
+---
+
+#### Generating New Variables
+
+Sometimes you will need to create new variables from existing variables to run your analyses.
+
+::: {.callout-important}
+## Your Turn
+
+Create a new logical variable that indicates `1` if a flipper length is above 181mm and `0` otherwise:
+:::
+
+```{r}
+#| label: dataframes_generate
+#| warning: false
+
+```
+
+---
+
+#### Creating Factor Variables
+
+::: {.callout-important}
+## Your Turn
+
+1. Create a new factor variable with three levels based on bill length:
+   - **small**: smaller than 39 mm
+   - **average**: between 39 and 48 mm
+   - **large**: larger than 48 mm
+2. Assign them the correct levels from small to large
+:::
+
+```{r}
+#| label: dataframes_factor
+#| warning: false
+
+```
+
+---
+
+#### Working with Dates
+
+::: {.callout-important}
+## Your Turn
+
+Turn the variable `year` in `penguins` into a date variable with format `dd-mm-yyyy`.
+
+*Hint: You might have to check the help function for `lubridate` to find the correct function.*
+:::
+
+```{r}
+#| label: dataframes_date
+#| warning: false
+
+```
+
+---
+
+#### Removing Variables
+
+::: {.callout-important}
+## Your Turn
+
+Remove the binary bill length variable you created before from the dataframe:
+:::
+
+```{r}
+#| label: dataframes_remove
+#| warning: false
+
+```
+
+---
+
+# Visual Exploration of Data
+
+Exploration of your data is indispensable before you engage in any analysis. Usually, this is conducted visually.
+
+Once again, we will be relying on **"tidyverse" syntax**—working with `ggplot2`.
+
+::: {.callout-tip}
+## Recommended Resource
+For this portion of the work, refer to the data visualization chapter(s) from [**"R for Data Science"** by Hadley Wickham](https://r4ds.hadley.nz/), which is available for free online.
+:::
+
+---
+
+## Scatterplots
+
+::: {.callout-important}
+## Your Turn
+
+Using the `penguins` dataset:
+
+1. Create a scatterplot with `flipper_length_mm` on the x-axis and `body_mass_g` on the y-axis
+2. Color the points according to `species`
+3. Add a regression line to the plot (using `geom_smooth` with `method = "lm"`)
+:::
+
+```{r}
+#| label: dataframes_plot
+#| warning: false
+
+```
+
+---
+
+### Enhancing Your Plot
+
+::: {.callout-important}
+## Your Turn
+
+Add the following to your plot:
+
+- A title
+- A subtitle
+- Better x and y axis labels
+- Add `shape = species` to make the differences clearer
+:::
+
+```{r}
+#| label: dataframes_plot_2
+#| warning: false
+
+```
+
+---
+
+## Bar Plots
+
+::: {.callout-important}
+## Your Turn
+
+1. Create a bar plot with `bill_length_fct` on the x-axis
+2. Add a title, subtitle, and x and y axis labels
+:::
+
+```{r}
+#| label: dataframes_plot_3
+#| warning: false
+
+```
+
+---
+
+## Box Plots
+
+::: {.callout-important}
+## Your Turn
+
+1. Create a box plot using `bill_length_fct` as the x-axis and `body_mass_g` as the y-axis
+2. Add title, subtitle, and x and y axis labels
+:::
+
+```{r}
+#| label: dataframes_plot_4
+#| warning: false
+
+```
+
+---
+
+::: {.callout-note appearance="simple"}
+## Congratulations!
+You have completed the introduction to R workflow. Continue practicing these skills as you work through your data analysis projects.
+:::
