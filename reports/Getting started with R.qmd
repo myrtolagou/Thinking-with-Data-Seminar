@@ -246,8 +246,9 @@ Create an R code block for each of the following exercises (refer to the Quarto 
 :::
 
 ```{r}
-#| label: calculator
-#| warning: false
+weight <- c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20)
+# Subset first 5 observations
+print(weight[1:5])
 
 ```
 
