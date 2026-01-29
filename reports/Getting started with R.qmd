@@ -270,10 +270,14 @@ Vectors are a one-dimensional representation of data that can be assigned to a v
 ```{r}
  
 weight <- c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20) # -> 1.create vector
-weight[1:5]  # -> 2.subset of 5 observations
-print(weight) 
+
+sub_weight <- weight[1:5]  # -> 2.subset of 5 observations
+print(sub_weight) 
+
 y_weight <- weight*2 # -> 3.mulitply vector
 print(y_weight)
+
+weight_2 
 
 ```
 
