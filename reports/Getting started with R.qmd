@@ -178,6 +178,13 @@ You will find code blocks strewn throughout the .qmd file but feel free to creat
 #| label: base-packages
 #| warning: false
 
+library(dplyr)
+library(ggplot2)
+library(here)
+library(readr)
+library(lubridate)
+library(palmerpenguins)
+
 ```
 
 ::: {.callout-tip}
@@ -358,7 +365,7 @@ While creating dataframes from scratch is possible, unless you are simulating da
 ```{r}
 #| label: dataframes_load
 
-data(penguins, package="palmerpenguins")
+data(penguins,package="palmerpenguins")
 
 ```
 
@@ -393,6 +400,9 @@ head(penguins_csv)
 #| label: dataframes_rda
 #| warning: false
 
+load(here("code","penguins.rda"))
+head(penguins)
+
 ```
 
 ---
@@ -413,6 +423,9 @@ Inspect the dataframe using appropriate functions:
 ```{r}
 #| label: dataframes_inspect
 #| warning: false
+
+head(penguins)
+glimpse(penguins)
 
 ```
 
