@@ -339,7 +339,7 @@ print(weight_df)
 
 # 2. Try to create with weight, weight_2, and weight_NA
 # This will error because weight_NA has 21 rows while weight and weight_2 have 20
-dataframes_2 <- data.frame(weight,weight_2,weight_NA)
+weight_df_2 <- data.frame(weight,weight_2,weight_NA)
 
 ```
 
@@ -358,6 +358,9 @@ While creating dataframes from scratch is possible, unless you are simulating da
 ```{r}
 #| label: dataframes_load
 
+data(penguins, package="palmerpenguins")
+
+```
 
 ```
 
@@ -372,7 +375,11 @@ Make sure to put the data files where they make sense in your working directory.
 
 ```{r}
 #| label: dataframes_csv
-#| warning: false
+
+penguins_csv <- read_csv(here("code","penguins.csv"))
+head(penguins_csv)
+
+```
 
 ```
 
