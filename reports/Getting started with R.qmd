@@ -452,7 +452,7 @@ Assign a single variable (column) of the dataframe to a new variable:
 
 ```{r}
 #| label: dataframes_extract
-#| warning: false
+
 
 ```
 
@@ -505,7 +505,9 @@ Create a new logical variable that indicates `1` if a flipper length is above 18
 
 ```{r}
 #| label: dataframes_generate
-#| warning: false
+
+species <- penguins$species
+head(species)
 
 ```
 
@@ -526,6 +528,8 @@ Create a new logical variable that indicates `1` if a flipper length is above 18
 ```{r}
 #| label: dataframes_factor
 #| warning: false
+
+
 
 ```
 
