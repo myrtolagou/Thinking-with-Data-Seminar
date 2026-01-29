@@ -453,6 +453,9 @@ Assign a single variable (column) of the dataframe to a new variable:
 ```{r}
 #| label: dataframes_extract
 
+# Extract a single column using $ operator
+island_extract <- penguins$island
+head(island_extract)
 
 ```
 
