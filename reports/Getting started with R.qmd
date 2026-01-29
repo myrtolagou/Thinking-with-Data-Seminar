@@ -246,10 +246,9 @@ Create an R code block for each of the following exercises (refer to the Quarto 
 :::
 
 ```{r}
-weight <- c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20)
-# Subset first 5 observations
-print(weight[1:5])
-
+print(1+1)
+print(2/4)
+print(3^2)
 ```
 
 ---
@@ -269,8 +268,12 @@ Vectors are a one-dimensional representation of data that can be assigned to a v
 :::
 
 ```{r}
-#| label: vectors
-#| warning: false
+ 
+weight <- c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20) # -> 1.create vector
+weight[1:5]  # -> 2.subset of 5 observations
+print(weight) 
+y_weight <- weight*2 # -> 3.mulitply vector
+print(y_weight)
 
 ```
 
